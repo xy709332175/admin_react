@@ -10,6 +10,7 @@ export default class App extends Component {
   handleClick = () => {
     message.success('响应点击')
     message.success('响应点击')
+    message.success('响应点击')
   }
 
   render () {
