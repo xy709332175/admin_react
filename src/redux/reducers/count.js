@@ -1,10 +1,14 @@
+import {
+    DECREMENT,
+    INCREMENT
+}  from '../action-types'
 
-// reducer函数, 根据原有state 和指定action ,产生并返回新的额state
-import {INCREMENT,DECREMENT} from './action-types'
 
 
 // 管理count 数据的 reducer函数
-export default function count(state = 1,action) {
+// 初始值
+const initCount = 1
+export default function count(state = initCount,action) {
     switch (action.type) {
         case INCREMENT:
             return state + action.data
