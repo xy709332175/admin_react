@@ -1,42 +1,47 @@
 
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {increment,decrement} from './redux/action-creactors'
 export default class App extends Component {
-  static propTypes = {
-    store : PropTypes.object.isRequired
+  state = {
+    count : 0
   }
   numberRef = React.createRef()
 
   increment = () =>{
     const number = this.numberRef.current.value * 1
-    // 通知store做增加更新
-    this.props.store.dispatch(increment(number))
+    const count = this.state.count + number
+    this.setState({
+      count,
+    })
   }
-
   decrement = () => {
     const number = this.numberRef.current.value * 1
-    // 通知store做增加更新
-    this.props.store.dispatch(decrement(number))
+    const count = this.state.count - number
+    this.setState({
+      count,
+    })
   }
-
   incrementIfOdd = () => {
     const number = this.numberRef.current.value * 1
-    const count = this.props.store.getState()
+    const count = this.state.count
     if(count %2 ===1){
-      this.props.store.dispatch(increment(number))
+      this.setState({
+        count : count + number
+      })
     }
 
   }
   incrementAsync = () => {
     const number = this.numberRef.current.value * 1
     setTimeout(() => {
-      this.props.store.dispatch(increment(number))
+      const count = this.state.count - number
+      this.setState({
+        count,
+      })
     }, 1000);
   }
   
   render () {
-    const count = this.props.store.getState()
+    const count = this.state.count
     return (
       <div>
         <p>click {count} times</p>
