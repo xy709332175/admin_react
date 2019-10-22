@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react'
-import {Button, message} from 'antd'
-import {HashRouter, BrowserRouter, Route, Switch} from 'react-router-dom'
+import {message} from 'antd'
+import {HashRouter,Route, Switch} from 'react-router-dom'
 import Login from "./pages/login/login"
 import Admin from "./pages/admin/admin"
 
