@@ -1,11 +1,22 @@
 import React, {Component} from 'react'
 import {Form, Icon, Input, Button} from 'antd'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import qs from 'qs'
 
+
+import { loginAsync } from '../../redux/action-creators/user'
 import logo from './images/logo.png'
 import './login.less'
+// import ajax from '../../api/ajax'
 
 const {Item} = Form
 
+@connect(
+  state => ({hasLogin: state.user.hasLogin}),  // 用于显示的一般属性
+  {loginAsync} // 用于更新状态的函数属性
+)
+@Form.create()
 class Login extends Component {
 
   handleSubmit = (event) =>{
@@ -13,7 +24,19 @@ class Login extends Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
+        const {username, password} = values
+        console.log('发ajax请求',{username, password})
+        
+        this.props.loginAsync(username, password)
+        // ajax.post('/login',values)
+        //   .then((result) =>{
+        //     const {status, data:{user,token} = {}, msg, xxx = 'abc'} = result
+        //     if(status === 0){
+        //       console.log('请求成功', user, token, )
+        //     } else {
+        //       console.log('请求失败', msg)
+        //     }
+        //   })
       } else {
 
       }
@@ -32,7 +55,7 @@ class Login extends Component {
       callback('密码必须大于4位')
     } else if(value.length >12){
       callback('密码必须小于12位')
-    } else if(/^[a-zA-Z0-9]+$/.test(value)){
+    } else if(!/^[a-zA-Z0-9]+$/.test(value)){
       callback('用户名是英文数字或下划线组成!')
     } else {
       callback()
@@ -40,6 +63,14 @@ class Login extends Component {
   }
 
   render() {
+
+      const {hasLogin} = this.props
+      //若已登录,自动跳转到admin页面
+      if(hasLogin){
+        //this.props.history.replace('/')  事件回调中使用
+        return <Redirect to = '/'/>  //在render()中使用
+      }
+
       const { getFieldDecorator } = this.props.form;
       return (
         <div className="login">
@@ -71,8 +102,8 @@ class Login extends Component {
               <Form.Item>
                 {
                   getFieldDecorator('password', {
+                  initialValue: '',
                   rules: [
-                    { required: true, message: '密码必须填写!' },
                     { validator: this.validatePwd },
                   ],
                 })(
@@ -93,6 +124,6 @@ class Login extends Component {
     }
   }
 
-  const LoginWrap = Form.create()(Login);
+  // const LoginWrap = Form.create()(Login);
 
-  export default LoginWrap
+  export default Login
