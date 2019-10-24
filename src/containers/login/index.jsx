@@ -1,22 +1,21 @@
 import React, {Component} from 'react'
 import {Form, Icon, Input, Button} from 'antd'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import qs from 'qs'
-
 
 import { loginAsync } from '../../redux/action-creators/user'
 import logo from './images/logo.png'
 import './login.less'
-// import ajax from '../../api/ajax'
+import WithCheckLogin from '../with-check-login'
 
 const {Item} = Form
 
 @connect(
-  state => ({hasLogin: state.user.hasLogin}),  // 用于显示的一般属性
+  state => ({}),  // 用于显示的一般属性
   {loginAsync} // 用于更新状态的函数属性
 )
 @Form.create()
+@WithCheckLogin
 class Login extends Component {
 
   handleSubmit = (event) =>{
@@ -64,14 +63,8 @@ class Login extends Component {
 
   render() {
 
-      const {hasLogin} = this.props
-      //若已登录,自动跳转到admin页面
-      if(hasLogin){
-        //this.props.history.replace('/')  事件回调中使用
-        return <Redirect to = '/'/>  //在render()中使用
-      }
-
       const { getFieldDecorator } = this.props.form;
+      
       return (
         <div className="login">
           <header className="login-header">

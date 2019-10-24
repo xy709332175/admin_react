@@ -15,7 +15,6 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(config => {
-
     // 在请求前 
     NProgress.start()   // 显示进度条
     
@@ -28,6 +27,7 @@ instance.interceptors.request.use(config => {
 
     const token = store.getState().user.token
     if(token){
+        // config当前请求的配置
         config.headers['Authorization'] = 'atguigu_' + token
     }
     
@@ -37,8 +37,7 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(
     /* 判断操作是否成功 */
     /* 判断,如果成功,返回返回的data数据,外部获取想要的数据 */
-    /* 判断,如果失败,返回携带的dmsg数据, 外部请求处理错误 */
-    
+    /* 判断,如果失败,返回携带的msg数据, 外部请求处理错误 */
 
     response => {
 
@@ -53,9 +52,13 @@ instance.interceptors.response.use(
         NProgress.done()
 
         const { status, data: {msg} = {} } = error.response
+        // 当前状态401 ,token有问题
         if(status === 401) {
+            // 若当前没有登录界面(当前路由路径不是/login)
             if( history.location.pathname !== '/login') {
+                // 提示
                 message.error(msg)
+                // 删除用户信息,自动跳到登录界面
                 store.dispatch(removeUserToken())
             }
         } else if (status === 404) {

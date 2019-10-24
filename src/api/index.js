@@ -11,8 +11,7 @@ import ajax from './ajax'
  })
 
 //  获取用户列表
-
  export const reqUsers = () =>  ajax({
      url: '/manage/user/list',
-     method : 'GER'
+     method : 'GET',
  })
