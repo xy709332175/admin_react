@@ -5,6 +5,10 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { message } from 'antd'
 
+import store from '../redux/store'
+import {removeUserToken} from '../redux/action-creators/user'
+import history from '../history'
+
 
 const instance = axios.create({
     timeout : 10000
@@ -20,6 +24,11 @@ instance.interceptors.request.use(config => {
     // 判断 data 是否是Object 类型   如果是  将数据类型转换成 urlencod 格式的字符串数据
     if(data instanceof Object){
         config.data = qs.stringify(data)
+    }
+
+    const token = store.getState().user.token
+    if(token){
+        config.headers['Authorization'] = 'atguigu_' + token
     }
     
     return config
@@ -43,7 +52,17 @@ instance.interceptors.response.use(
 
         NProgress.done()
 
-        message.error('请求错误:' + error.message)
+        const { status, data: {msg} = {} } = error.response
+        if(status === 401) {
+            if( history.location.pathname !== '/login') {
+                message.error(msg)
+                store.dispatch(removeUserToken())
+            }
+        } else if (status === 404) {
+            message.error('请求资源不存在')
+        } else {
+            message.error('请求错误:' + error.message)
+        }
 
         //中断Promise
         return new Promise (() => {})
