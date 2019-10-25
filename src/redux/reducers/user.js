@@ -1,9 +1,12 @@
 
 // 管理用户登录数据的reducer函数
 import { SAVE_USER_TOKEN, REMOVE_USER_TOKEN } from '../action-types'
+import storage from '../../utils/storage'
 
-const _user = JSON.parse(localStorage.getItem('user_key') || '{}')
-const _token = localStorage.getItem('token_key')
+// const _user = JSON.parse(localStorage.getItem('user_key') || '{}')
+// const _token = localStorage.getItem('token_key')
+const _user = storage.get(storage.KEYS.USER_KEY, {})
+const _token = storage.get(storage.KEYS.TOKEN_KEY, '')
 const initUser = {
     // 初始值从local中读取
     user : _user,
@@ -21,7 +24,7 @@ export default function user(state = initUser, action) {
             }
         case REMOVE_USER_TOKEN:
             return {
-                user: [],
+                user: {},
                 token: '',
                 hasLogin: false
             }

@@ -1,17 +1,16 @@
 import React, {Component} from 'react'
 import {Form, Icon, Input, Button} from 'antd'
-// import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { loginAsync } from '../../redux/action-creators/user'
-import logo from './images/logo.png'
+import logo from '../../assets/images/logo.png'
 import './login.less'
 import WithCheckLogin from '../with-check-login'
 
 const {Item} = Form
 
 @connect(
-  state => ({}),  // 用于显示的一般属性
+  null,  // 用于显示的一般属性
   {loginAsync} // 用于更新状态的函数属性
 )
 @Form.create()

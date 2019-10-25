@@ -1,9 +1,9 @@
 
 import axios from 'axios'
 import qs from 'qs'
+import { message } from 'antd'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { message } from 'antd'
 
 import store from '../redux/store'
 import {removeUserToken} from '../redux/action-creators/user'
