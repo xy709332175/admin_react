@@ -39,3 +39,28 @@ import {message} from 'antd'
 
 //  获取所有分类的列表
  export const reqCategorys = () => ajax('/manage/category/list')
+
+//  添加分类
+ export const reqAddCategory = (categoryName) => ajax.post('/manage/category/add', {categoryName})
+
+// 更新分类
+export const reqUpdateCategory = ({categoryId, categoryName}) => ajax({
+    url: '/manage/category/update',
+    method: 'POST',
+    data: {categoryId, categoryName}
+})
+
+// 获取商品分类列表
+export const reqSearchProducts = ({
+    pageNum,
+    pageSize,
+    searchType,
+    searchName
+}) => ajax({
+    url: '/manage/product/search',
+    params: {
+        pageNum,
+        pageSize,
+        [searchType] : searchName
+    }
+})
