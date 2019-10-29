@@ -3,6 +3,7 @@ import { Menu, Icon } from 'antd'
 import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {withTranslation} from 'react-i18next'
 
 import {setHeaderTitle} from '../../../redux/action-creators/header-title'
 import menuList from '../../../config/menu-config'
@@ -12,6 +13,7 @@ import './index.less'
 const {SubMenu, Item} = Menu
 @connect(state => ({headerTitle: state.headerTitle}), {setHeaderTitle})
 @withRouter
+@withTranslation()
 class LeftNav extends Component {
 
     // 使用reduce() + 递归调用 来生成多级菜单项的数组
@@ -23,14 +25,14 @@ class LeftNav extends Component {
     
             if(!item.children) {
                 if(path.indexOf(item.key) === 0 && this.props.headerTitle !== item.title) {
-                    this.props.setHeaderTitle(item.title)
+                    this.props.setHeaderTitle(this.props.t(item.title))
                 }
     
                 pre.push((
                     <Item key = {item.key}>
-                        <Link to = {item.key} onClick = {() => this.props.setHeaderTitle(item.title)}>
+                        <Link to = {item.key} onClick = {() => this.props.setHeaderTitle(this.props.t(item.title))}>
                             <Icon type = {item.icon}/>
-                            <span>{item.title}</span>
+                            <span>{this.props.t(item.title)}</span>
                         </Link>
                     </Item>
                 ))
@@ -44,7 +46,7 @@ class LeftNav extends Component {
                         title = {
                             <span>
                                 <Icon type = {item.icon}/>
-                                <span>{item.title}</span>
+                                <span>{this.props.t(item.title)}</span>
                             </span>
                         }
                     >
@@ -66,7 +68,7 @@ class LeftNav extends Component {
                     <Item key={item.key}>
                       <Link to={item.key}>
                         <Icon type={item.icon} />
-                        <span>{item.title}</span>
+                        <span>{this.props.t('menus.home')}</span>
                       </Link>
                     </Item>
                 )
@@ -102,7 +104,7 @@ class LeftNav extends Component {
             <div className = "left-nav" >
                 <div className="left-nav-header">
                     <img src={logo} alt="logo"/>
-                    <h1>硅谷后台</h1>
+                    <h1>{this.props.t('title')}</h1>
                 </div>
             
                 <Menu 

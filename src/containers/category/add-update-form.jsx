@@ -12,6 +12,11 @@ class AddUpdateForm extends Component {
         categoryName: PropTypes.string
     }
 
+    constructor (props) {
+      super(props)
+      this.props.setForm(this.props.form)
+    }
+
 
     render() {
         const {getFieldDecorator} = this.props.form

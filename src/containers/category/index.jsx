@@ -8,7 +8,6 @@ import {
   message
 } from 'antd'
 import {connect} from 'react-redux'
-import {reqAddCategory, reqUpdateCategory} from '../../api'
 import {
   getCategorysAsync,
   addCategoryAsync,
@@ -16,9 +15,7 @@ import {
 } from '../../redux/action-creators/categorys'
 
 import LinkButton from '../../components/link-button'
-import AddUpdateForm from './add-unpate-form'
-import { __values } from 'tslib'
-import categorys from '../../redux/reducers/categorys'
+import AddUpdateForm from './add-update-form'
 
 /* 
 Admin的分类管理子路由组件

@@ -5,6 +5,7 @@ import {Modal, Button, Icon} from 'antd'
 import dayjs from 'dayjs'
 import format from 'date-fns/format'
 import screenfull from 'screenfull'
+import { withTranslation } from 'react-i18next'
 
 import {removeUserToken} from '../../../redux/action-creators/user'
 import LinkButton from '../../../components/link-button'
@@ -21,6 +22,7 @@ import './index.less'
   {removeUserToken}
 )
 @withRouter
+@withTranslation()
 class Header extends Component {
 
   state = {
@@ -28,7 +30,8 @@ class Header extends Component {
     currentTime: format(Date.now(), 'yyyy-MM-dd HH:mm:ss'),
     dayPictureUrl: '',
     weather: '',
-    isFullScreen: false
+    isFullScreen: false,
+    language : this.props.i18n.language
   }
 
   logout = () => {
@@ -56,6 +59,14 @@ class Header extends Component {
     if (screenfull.isEnabled) {
       screenfull.toggle()
     }
+  }
+
+  changeLanguage =() => {
+    const language = this.getSnapshotBeforeUpdate.language === 'en' ? 'zh-CH' : 'en'
+    this.props.i18n.changeLanguage(language)
+    this.setState({
+      language
+    })
   }
 
   componentDidMount(){
@@ -88,6 +99,9 @@ class Header extends Component {
     return (
       <div className="header">
         <div className="header-top">
+          <Button size = 'small' onClick = {this.changeLanguage}>
+            {language === 'en' ? '中文' : 'English'}
+          </Button>&nbsp;
           <Button size = 'small' onClick = {this.handleFullScreen}>
             <Icon type = {isFullScreen ? 'fullscreen-exit' : 'fullscreen'}></Icon>
           </Button>

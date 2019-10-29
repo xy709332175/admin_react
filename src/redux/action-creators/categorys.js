@@ -20,7 +20,8 @@ const updateCategory = (category) => ({type:UPDATE_CATEGORY, data: category})
 
 // 获取所有分类列表
 export const getCategorysAsync = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        if(getState().category.length > 0) return
         const result = await reqCategorys()
         if(result.status === 0) {
             const categorys = result.data
